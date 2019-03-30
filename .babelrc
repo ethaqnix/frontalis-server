@@ -1,5 +1,5 @@
 {
-  "presets": ["env", "flow"],
-  "plugins": [],
+  "presets": ["@babel/preset-env", "@babel/preset-flow"],
+  "plugins": ["@babel/plugin-transform-destructuring", "@babel/plugin-proposal-optional-chaining"],
   "sourceMaps": true,
 }

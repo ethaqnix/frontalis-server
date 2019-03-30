@@ -4,29 +4,41 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --exec npx babel-node -- src/server.js",
-    "babel-node": "babel-node",
+    "build": "rm -rf dist && NODE_ENV=production webpack",
+    "start": "node ./dist/server.js",
+    "nodemon": "nodemon ./dist/main.js",
+    "watch": "webpack --watch",
+    "dev": "npm-run-all -p nodemon watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@babel/polyfill": "^7.4.0",
     "apollo-server": "^2.4.2",
     "apollo-server-express": "^2.4.2",
+    "babel-loader": "^8.0.5",
     "express": "^4.16.4",
     "graphql": "^14.1.1",
     "mongoose": "^5.4.13"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-eslint": "^10.0.1",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-flow": "^6.23.0",
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.4.0",
+    "@babel/plugin-proposal-optional-chaining": "^7.2.0",
+    "@babel/plugin-transform-destructuring": "^7.4.0",
+    "@babel/preset-env": "^7.4.2",
+    "@babel/preset-flow": "^7.0.0",
     "eslint": "^5.14.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jsx-a11y": "^6.1.2",
     "eslint-plugin-react": "^7.11.1",
-    "nodemon": "^1.18.10"
+    "nodemon": "^1.18.10",
+    "npm-run-all": "^4.1.5",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0",
+    "webpack-dev-server": "^3.2.1",
+    "webpack-node-externals": "^1.7.2"
   }
 }

@@ -1,4 +1,8 @@
 import { gql } from 'apollo-server';
+import User from './User';
+import Group from './Group';
+import Location from './Location';
+import Travel from './Travel';
 
 const Query = `type Query {
   user(id: String, name: String): User
@@ -12,97 +16,22 @@ const Query = `type Query {
 }`;
 
 const Mutation = `type Mutation {
-  addUser(name: String!): User!
-
-  addLocation(
-    address: String!
-  ): Location!
-
-  addTravel(
-    driver: String,
-    locations: [String]!,
-    members: [String]!,
-    startAt: String,
-    endAt: String!,
-  ): Travel
-
-  addGroup(
-    isPrivate: Boolean!,
-    members: [String]!,
-    travels: [String]!,
-  ): User
-
-  editUser(
-    id: String!,
-    name: String!
-  ): User
-
-  editLocation(
-    id: String!,
-    address: String!
-  ): Location
-
-  editTravel(
-    id: String!,
-    driver: String,
-    locations: [String]!,
-    members: [String]!,
-    startAt: String,
-    endAt: String!,
-  ): Travel
-
-  editGroup(
-    id: String!,
-    isPrivate: Boolean!,
-    members: [String]!,
-    travels: [String]!,
-  ): Group
-
-  deleteUser(
-    id: String!,
-  ): Boolean
-
-  deleteLocation(
-    id: String!,
-  ): Boolean
-
-  deleteTravel(
-    id: String!,
-  ): Boolean
-
-  deleteGroup(
-    id: String!,
-  ): Boolean
+  ${User.Mutation}
+  ${Group.Mutation}
+  ${Location.Mutation}
+  ${Travel.Mutation}
 }`;
 
+const Type = `
+  ${User.Type}
+  ${Group.Type}
+  ${Location.Type}
+  ${Travel.Type}
+`;
+
+
 export default gql`
-  type User {
-    id: String!
-    name: String!
-  }
-
-  type Location {
-    id: String!
-    address: String!
-  }
-
-  type Travel {
-    id: String!
-    driver: User
-    members: [User]
-    locations: [Location]
-    startAt: String
-    endAt: String
-  }
-
-  type Group {
-    id: String!
-    members: [User]
-    isPrivate: Boolean
-    travels: [Travel]
-  }
-
-  ${Query}
-
+  ${Type}
   ${Mutation}
+  ${Query}
 `;
