@@ -3,10 +3,16 @@ export default {
   type User {
     id: String!
     name: String!
+    email: String!
+    password: String!
   }
   `,
   Mutation: `
-    addUser(name: String!): User!
+    addUser(
+      name: String!
+      email: String!
+      password: String!
+    ): User!
     
     editUser(
       id: String!,

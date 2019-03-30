@@ -3,6 +3,7 @@ import User from './User';
 import Group from './Group';
 import Location from './Location';
 import Travel from './Travel';
+import Features from '../features';
 
 const Query = `type Query {
   user(id: String, name: String): User
@@ -20,6 +21,7 @@ const Mutation = `type Mutation {
   ${Group.Mutation}
   ${Location.Mutation}
   ${Travel.Mutation}
+  ${Features.mutations.map(mutation => mutation.Mutation).join('\n')}
 }`;
 
 const Type = `
@@ -27,8 +29,8 @@ const Type = `
   ${Group.Type}
   ${Location.Type}
   ${Travel.Type}
+  ${Features.mutations.map(mutation => mutation.Type).join('\n')}
 `;
-
 
 export default gql`
   ${Type}
