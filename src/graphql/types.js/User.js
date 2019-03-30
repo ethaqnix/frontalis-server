@@ -16,7 +16,9 @@ export default {
     
     editUser(
       id: String!,
-      name: String!
+      name: String,
+      email: String,
+      password: String
     ): User
      
     deleteUser(

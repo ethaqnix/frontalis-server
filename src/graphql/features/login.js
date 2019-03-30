@@ -1,5 +1,20 @@
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 import { mutationCreator } from './utils';
 import User from '../../db/schemas/User';
+
+async function cmpPwd(pwd, hash) {
+  return new Promise((res, rej) => {
+    bcrypt.compare(pwd, hash, (err, result) => {
+      if (err) rej(err);
+      res(result);
+    });
+  });
+}
+
+function mkJWT(data, secret = 'secret', options = { expiresIn: 60 * 60 }) {
+  return jwt.sign(data, secret, options);
+}
 
 type Token = {
   token: string
@@ -7,6 +22,7 @@ type Token = {
 
 const type = `type LoginMutation {
   token: String
+  expiresIn: Int,
 }`;
 
 const mutation = `
@@ -26,14 +42,19 @@ const handler = async function login(
     password: string
   },
 ): Token {
-  const user: ?User = await User.findOne({ email, password });
+  const user: ?User = await User.findOne({ email });
   if (user) {
-    return {
-      token: 'Fake',
-    };
+    const check = await cmpPwd(password, user.password);
+    if (check) {
+      return {
+        token: mkJWT({ email }),
+        expiresIn: 60 * 60,
+      };
+    }
   }
   return {
     token: null,
+    expiresIn: null,
   };
 };
 
